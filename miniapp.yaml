@@ -1,0 +1,26 @@
+apiVersion: apps/v1 # for versions before 1.9.0 use apps/v1beta2
+kind: Deployment
+metadata:
+  name: miniapp
+spec:
+  selector:
+    matchLabels:
+      app: miniapp
+  replicas: 3 # tells deployment to run 2 or more pods matching the template
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+
+  template:
+    metadata:
+      labels:
+        app: miniapp
+    spec:
+      containers:
+      - name: miniapp
+        image: ladbam/appcode
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 80
